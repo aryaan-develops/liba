@@ -1,0 +1,181 @@
+.main {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    background: #fdfdfd;
+}
+
+.sidebar {
+    background: #1c1917;
+    color: #fff;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.adminIcon {
+    color: var(--secondary-tan);
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.nav a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    opacity: 0.6;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.nav a:hover,
+.nav a.active {
+    opacity: 1;
+    color: var(--secondary-tan);
+}
+
+.logoutBtn {
+    margin-top: auto;
+    background: none;
+    border: none;
+    color: #fff;
+    opacity: 0.5;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logoutBtn:hover {
+    opacity: 1;
+    color: var(--accent-terracotta);
+}
+
+/* Content */
+.content {
+    padding: 60px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.title {
+    font-size: 2.5rem;
+    color: var(--primary-oak);
+}
+
+.userStatus {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.6;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.statusDot {
+    width: 10px;
+    height: 10px;
+    background: #4ade80;
+    border-radius: 50%;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 60px;
+}
+
+.statLine {
+    padding: 30px;
+    background: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.statLine h3 {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    margin-bottom: 12px;
+}
+
+.statLine strong {
+    font-size: 2rem;
+    color: var(--primary-oak);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.trend {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #4ade80;
+}
+
+.tableSection {
+    background: #fff;
+    padding: 40px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.tableSection h2 {
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+}
+
+.adminTable {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.adminTable th {
+    padding: 15px;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.adminTable td {
+    padding: 20px 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+}
+
+.buyBadge {
+    background: rgba(160, 82, 45, 0.1);
+    color: var(--accent-terracotta);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.lendBadge {
+    background: rgba(74, 55, 40, 0.1);
+    color: var(--primary-oak);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}

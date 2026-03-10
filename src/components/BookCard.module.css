@@ -1,0 +1,90 @@
+.card {
+    background: #fff;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: var(--transition-smooth);
+}
+
+.imageWrapper {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-slow);
+}
+
+.card:hover .image {
+    transform: scale(1.05);
+}
+
+.badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--primary-oak);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info {
+    padding: 24px;
+}
+
+.author {
+    font-size: 0.85rem;
+    color: var(--secondary-tan);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.title {
+    font-size: 1.4rem;
+    color: var(--text-ink);
+    margin-bottom: 20px;
+    font-family: var(--font-serif);
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 15px;
+}
+
+.price {
+    font-weight: 700;
+    color: var(--primary-oak);
+}
+
+.actionBtn {
+    background: none;
+    border: none;
+    color: var(--accent-terracotta);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+}
+
+.actionBtn:hover {
+    gap: 10px;
+}

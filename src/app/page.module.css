@@ -1,0 +1,271 @@
+.main {
+  width: 100%;
+}
+
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Sections */
+.introSection {
+  padding: 120px 0;
+  background: var(--bg-parchment);
+}
+
+.introContent {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 80px;
+}
+
+.sectionTitle {
+  font-size: 3.5rem;
+  color: var(--primary-oak);
+  margin-bottom: 24px;
+}
+
+.sectionDesc {
+  font-size: 1.2rem;
+  color: var(--text-ink);
+  opacity: 0.7;
+  line-height: 1.8;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.featureItem {
+  padding: 40px;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: var(--transition-smooth);
+}
+
+.featureItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.iconBox {
+  width: 60px;
+  height: 60px;
+  background: rgba(212, 163, 115, 0.1);
+  color: var(--secondary-tan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+}
+
+.featureItem h3 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  color: var(--primary-oak);
+}
+
+.featureItem p {
+  color: var(--text-ink);
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+/* Featured Section */
+.featured {
+  padding: 120px 0;
+  background: #fff;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+}
+
+.textLink {
+  background: none;
+  border: none;
+  color: var(--accent-terracotta);
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.bookGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 32px;
+}
+
+/* Library Connect Section */
+.libraryConnect {
+  padding: 120px 0;
+  background: var(--primary-oak);
+  color: #fff;
+}
+
+.splitLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.libText {
+  max-width: 500px;
+}
+
+.label {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: var(--secondary-tan);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.libraryConnect .sectionTitle {
+  color: #fff;
+}
+
+.statRow {
+  display: flex;
+  gap: 40px;
+  margin: 40px 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat strong {
+  font-size: 2.5rem;
+  font-family: var(--font-serif);
+}
+
+.stat span {
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+.accentBtn {
+  background: var(--secondary-tan);
+  color: var(--primary-oak);
+  border: none;
+  padding: 16px 32px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+}
+
+.libImage {
+  position: relative;
+}
+
+.imageCard {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.imageCard img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+
+.floatingTag {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: #fff;
+  color: var(--text-ink);
+  padding: 8px 16px;
+  border-radius: 40px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer {
+  padding: 100px 0 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background: #fff;
+}
+
+.footerTop {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 80px;
+}
+
+.brandName {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+}
+
+.footerLinks {
+  display: flex;
+  gap: 80px;
+}
+
+.linkGroup h4 {
+  margin-bottom: 24px;
+  font-size: 1rem;
+  color: var(--primary-oak);
+}
+
+.linkGroup a {
+  display: block;
+  margin-bottom: 12px;
+  opacity: 0.6;
+  font-size: 0.95rem;
+}
+
+.footerBottom {
+  padding-top: 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  opacity: 0.5;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 1024px) {
+  .sectionTitle {
+    font-size: 2.8rem;
+  }
+
+  .splitLayout {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+
+  .footerTop {
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .footerLinks {
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+}
