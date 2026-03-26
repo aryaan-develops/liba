@@ -33,7 +33,7 @@ const handler = NextAuth({
 
         console.log('Login successful. Raw role from DB:', user.role);
         
-        const finalRole = (user.role && user.role !== 'undefined') ? String(user.role) : 'user';
+        const finalRole = (user.role && (user.role as any) !== 'undefined') ? String(user.role) : 'user';
 
         return {
           id: user._id.toString(),
@@ -50,19 +50,19 @@ const handler = NextAuth({
   pages: {
     signIn: '/login',
     error: '/login',
-  },
+    },
   callbacks: {
     async jwt({ token, user }: any) {
       if (user) {
         token.id = user.id;
-        token.role = (user.role && user.role !== 'undefined') ? user.role : 'user';
+        token.role = (user.role && (user.role as any) !== 'undefined') ? user.role : 'user';
       }
       return token;
     },
     async session({ session, token }: any) {
       if (token) {
         session.user.id = token.id;
-        session.user.role = (token.role && token.role !== 'undefined') ? token.role : 'user';
+        session.user.role = (token.role && (token.role as any) !== 'undefined') ? token.role : 'user';
       }
       return session;
     },
