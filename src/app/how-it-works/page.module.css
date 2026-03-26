@@ -1,0 +1,225 @@
+.main {
+    min-height: 100vh;
+    background: #ffffff;
+    padding: 2rem 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.header {
+    text-align: center;
+    padding: 6rem 0 4rem;
+    background: linear-gradient(to bottom, #f9f9f9, #ffffff);
+}
+
+.title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+    letter-spacing: -2px;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.stepsSection {
+    padding: 6rem 0;
+}
+
+.stepsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.stepCard {
+    text-align: center;
+    padding: 3rem;
+    background: #fff;
+    border-radius: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.stepCard:hover {
+    transform: translateY(-10px);
+}
+
+.iconWrapper {
+    width: 80px;
+    height: 80px;
+    background: #f0f0f5;
+    border-radius: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2rem;
+    color: #4a4a4a;
+}
+
+.iconWrapper svg {
+    width: 32px;
+    height: 32px;
+}
+
+.stepCard h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
+}
+
+.stepCard p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.missionSection {
+    padding: 8rem 0;
+    background: #f9fafb;
+}
+
+.missionContent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+}
+
+.missionText h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #1a1a1a;
+}
+
+.missionText > p {
+    font-size: 1.125rem;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+}
+
+.valueGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.valueItem {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.smallIcon {
+    width: 48px;
+    height: 48px;
+    background: #fff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    color: #1a1a1a;
+}
+
+.smallIcon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.valueItem h4 {
+    font-size: 1.125rem;
+    margin-bottom: 0.25rem;
+    color: #1a1a1a;
+}
+
+.valueItem p {
+    color: #666;
+    font-size: 0.9375rem;
+}
+
+.missionImage img {
+    width: 100%;
+    height: auto;
+    border-radius: 3rem;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+}
+
+.ctaSection {
+    padding: 8rem 0;
+    text-align: center;
+}
+
+.ctaBox {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 6rem 4rem;
+    border-radius: 4rem;
+}
+
+.ctaBox h2 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.ctaBox p {
+    font-size: 1.25rem;
+    color: #aaa;
+    margin-bottom: 3rem;
+}
+
+.ctaButtons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.primaryBtn {
+    padding: 1.25rem 2.5rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: #fff;
+    color: #000;
+    font-size: 1.125rem;
+}
+
+.secondaryBtn {
+    padding: 1.25rem 2.5rem;
+    border-radius: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: #fff;
+    font-size: 1.125rem;
+}
+
+.footer {
+    padding: 4rem 0;
+    text-align: center;
+    border-top: 1px solid #eee;
+    color: #999;
+}
+
+@media (max-width: 968px) {
+    .stepsGrid {
+        grid-template-columns: 1fr;
+    }
+    .missionContent {
+        grid-template-columns: 1fr;
+    }
+    .title {
+        font-size: 2.5rem;
+    }
+}

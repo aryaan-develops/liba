@@ -1,25 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import BookCard from "@/components/BookCard";
 import PaymentModal from "@/components/PaymentModal";
-import { BOOKS, BookType } from "@/lib/data";
+import { BookType } from "@/lib/data";
 import styles from "./page.module.css";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, Loader2 } from "lucide-react";
 
 export default function BooksPage() {
+    const [books, setBooks] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<BookType | 'all'>('all');
     const [search, setSearch] = useState("");
     const [isPaymentOpen, setIsPaymentOpen] = useState(false);
     const [selectedBook, setSelectedBook] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchBooks = async () => {
+            try {
+                const response = await fetch('/api/books');
+                const data = await response.json();
+                if (Array.isArray(data)) {
+                    setBooks(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch books:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBooks();
+    }, []);
 
     const handleAction = (book: any) => {
         setSelectedBook(book);
         setIsPaymentOpen(true);
     };
 
-    const filteredBooks = BOOKS.filter(book => {
+    const filteredBooks = books.filter(book => {
         const matchesFilter = filter === 'all' || book.type === filter;
         const matchesSearch = book.title.toLowerCase().includes(search.toLowerCase()) ||
             book.author.toLowerCase().includes(search.toLowerCase());
@@ -35,7 +55,6 @@ export default function BooksPage() {
                 onClose={() => setIsPaymentOpen(false)}
                 item={selectedBook}
             />
-            {/* ... rest of the content ... */}
 
             <header className={styles.header}>
                 <div className={styles.container}>
@@ -79,12 +98,16 @@ export default function BooksPage() {
 
             <section className={styles.results}>
                 <div className={styles.container}>
-                    {filteredBooks.length > 0 ? (
+                    {loading ? (
+                        <div className={styles.loading}>
+                            <Loader2 className={styles.spinner} />
+                            <p>Loading catalog...</p>
+                        </div>
+                    ) : filteredBooks.length > 0 ? (
                         <div className={styles.grid}>
                             {filteredBooks.map((book: any) => (
-                                <BookCard key={book.id} {...book} onAction={() => handleAction(book)} />
+                                <BookCard key={book._id || book.id} {...book} id={book._id || book.id} onAction={() => handleAction(book)} />
                             ))}
-
                         </div>
                     ) : (
                         <div className={styles.empty}>
@@ -97,3 +120,4 @@ export default function BooksPage() {
         </main>
     );
 }
+

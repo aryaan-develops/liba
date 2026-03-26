@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import styles from "./PaymentModal.module.css";
 import { X, CreditCard, Lock, CheckCircle, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 interface PaymentModalProps {
     isOpen: boolean;
@@ -16,13 +17,39 @@ interface PaymentModalProps {
 }
 
 export default function PaymentModal({ isOpen, onClose, item }: PaymentModalProps) {
+    const { user } = useAuth();
     const [step, setStep] = useState<"form" | "processing" | "success">("form");
 
     if (!item) return null;
 
-    const handlePay = () => {
+    const handlePay = async () => {
         setStep("processing");
-        setTimeout(() => setStep("success"), 3000);
+        
+        try {
+            const apiEndpoint = item.author === "Library Subscription" 
+                ? '/api/payment/subscription' 
+                : '/api/payment/purchase';
+            
+            const body = item.author === "Library Subscription"
+                ? { userId: user?.id, amount: item.price, planType: item.title.toLowerCase() }
+                : { userId: user?.id, bookId: 'MOCK_ID', sellerId: 'MOCK_SELLER', amount: item.price }; // In a real app, IDs would be passed in
+
+            const res = await fetch(apiEndpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+
+            if (res.ok) {
+                setTimeout(() => setStep("success"), 2000);
+            } else {
+                alert("Payment processing failed. Please try again.");
+                setStep("form");
+            }
+        } catch (err) {
+            console.error("Payment error:", err);
+            setStep("form");
+        }
     };
 
     return (
@@ -49,14 +76,24 @@ export default function PaymentModal({ isOpen, onClose, item }: PaymentModalProp
                                         <span>Book Price</span>
                                         <strong>{item.price}</strong>
                                     </div>
-                                    <div className={styles.summaryRow}>
-                                        <span>Community Tax</span>
-                                        <strong>$0.50</strong>
-                                    </div>
-                                    <div className={styles.totalRow}>
-                                        <span>Total</span>
-                                        <strong>${(parseFloat(item.price.replace('$', '')) + 0.50).toFixed(2)}</strong>
-                                    </div>
+                                    {item.price !== 'Free to Borrow' && (
+                                        <>
+                                            <div className={styles.summaryRow}>
+                                                <span>Community Tax</span>
+                                                <strong>$0.50</strong>
+                                            </div>
+                                            <div className={styles.totalRow}>
+                                                <span>Total</span>
+                                                <strong>${(parseFloat(item.price.replace('$', '')) + 0.50).toFixed(2)}</strong>
+                                            </div>
+                                        </>
+                                    )}
+                                    {item.price === 'Free to Borrow' && (
+                                        <div className={styles.totalRow}>
+                                            <span>Total</span>
+                                            <strong>$0.00</strong>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className={styles.form}>

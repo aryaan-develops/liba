@@ -12,27 +12,30 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Liba | Storytelling Library & Book Exchange",
-  description: "Lend, buy, and connect with local libraries. Every book has a story.",
-};
-
+import NextAuthSessionProvider from "@/context/NextAuthSessionProvider";
 import { AuthProvider } from "@/context/AuthContext";
+
+export const metadata = {
+  title: "Liba",
+  description: "Connect and share your stories with the community.",
+  icons: {
+    icon: "/favicon.png",
+  },
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${outfit.variable}`}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+      <body className={`${playfair.variable} ${outfit.variable} antialiased`}>
+        <NextAuthSessionProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );
 }
-
 

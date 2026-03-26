@@ -121,3 +121,67 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+
+.roleGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.roleGroup label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary-oak);
+}
+
+.roleGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.roleCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 10px;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    background: #fafafa;
+}
+
+.roleCard:hover {
+    border-color: var(--secondary-tan);
+    background: #fff;
+}
+
+.activeRole {
+    border-color: var(--primary-oak);
+    background: rgba(82, 60, 43, 0.05);
+}
+
+.roleIcon {
+    font-size: 1.5rem;
+}
+
+.roleLabel {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary-oak);
+}
+
+.selectionDot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #fff;
+}

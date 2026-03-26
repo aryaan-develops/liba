@@ -1,111 +1,107 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import styles from "./page.module.css";
-import { User, Library, ShoppingCart, ShieldCheck } from "lucide-react";
-import Link from "next/link";
-
-type Role = "reader" | "seller" | "library" | "admin";
+import { Loader2, ArrowRight, Mail, Lock } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
-    const [role, setRole] = useState<Role>("reader");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const { login } = useAuth();
     const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         setError("");
 
-        const success = await login(username, password, role);
-        if (success) {
-            if (role === 'admin') router.push("/admin");
-            else router.push("/dashboard");
-        } else {
-            setError("Invalid credentials. Try again.");
+        try {
+            const result = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+            });
+
+            if (result?.error) {
+                setError("Invalid email or password. Please try again.");
+            } else {
+                router.push("/dashboard");
+                router.refresh();
+            }
+        } catch (err) {
+            setError("Something went wrong. Please check your connection.");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <main className={styles.main}>
-            {/* Background Texture Overlay */}
-            <div className={styles.texture} />
+            <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={styles.card}
+            >
+                <div className={styles.header}>
+                    <h1 className={styles.title}>Welcome Back</h1>
+                    <p className={styles.subtitle}>Enter your credentials to access your library.</p>
+                </div>
 
-            <div className={styles.container}>
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={styles.glassContent}
-                >
-                    <Link href="/" className={styles.logo}>Liba</Link>
-                    <h1 className={styles.title}>Welcome to the Story</h1>
+                {error && <div className={styles.error}>{error}</div>}
 
-                    <div className={styles.roleTabs}>
-                        <button
-                            className={role === 'reader' ? styles.activeTab : ""}
-                            onClick={() => setRole('reader')}
-                        >
-                            <User size={18} /> Reader
-                        </button>
-                        <button
-                            className={role === 'seller' ? styles.activeTab : ""}
-                            onClick={() => setRole('seller')}
-                        >
-                            <ShoppingCart size={18} /> Seller
-                        </button>
-                        <button
-                            className={role === 'library' ? styles.activeTab : ""}
-                            onClick={() => setRole('library')}
-                        >
-                            <Library size={18} /> Library
-                        </button>
-                        <button
-                            className={role === 'admin' ? styles.activeTab : ""}
-                            onClick={() => setRole('admin')}
-                        >
-                            <ShieldCheck size={18} /> Admin
-                        </button>
-                    </div>
-
-                    <form onSubmit={handleSubmit} className={styles.formStack}>
-                        <div className={styles.inputGroup}>
-                            <label>Username</label>
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <div className={styles.inputGroup}>
+                        <label>Email Address</label>
+                        <div style={{ position: 'relative' }}>
+                            <Mail size={18} style={{ position: 'absolute', top: '50%', left: '15px', transform: 'translateY(-50%)', opacity: 0.4 }} />
                             <input
-                                type="text"
-                                placeholder="Enter your username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
+                                type="email"
+                                placeholder="Enter your email"
                                 required
+                                style={{ paddingLeft: '45px', width: '100%' }}
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <div className={styles.inputGroup}>
-                            <label>Password</label>
+                    </div>
+
+                    <div className={styles.inputGroup}>
+                        <label>Password</label>
+                        <div style={{ position: 'relative' }}>
+                            <Lock size={18} style={{ position: 'absolute', top: '50%', left: '15px', transform: 'translateY(-50%)', opacity: 0.4 }} />
                             <input
                                 type="password"
                                 placeholder="Enter your password"
+                                required
+                                style={{ paddingLeft: '45px', width: '100%' }}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                required
                             />
                         </div>
+                    </div>
 
-                        {error && <p className={styles.error}>{error}</p>}
+                    <button className={styles.submitBtn} disabled={loading}>
+                        {loading ? (
+                            <>
+                                <Loader2 size={20} className={styles.spinner} />
+                                Signing In...
+                            </>
+                        ) : (
+                            <>
+                                Sign In <ArrowRight size={20} />
+                            </>
+                        )}
+                    </button>
+                </form>
 
-                        <button type="submit" className={styles.primaryBtn}>
-                            Entry into Liba
-                        </button>
-
-                        <p className={styles.footerText}>
-                            New to the story? <a href="#">Create a profile</a>
-                        </p>
-                    </form>
-                </motion.div>
-            </div>
+                <div className={styles.footer}>
+                    Don't have an account? <a href="/register" className={styles.link}>Register Here</a>
+                </div>
+            </motion.div>
         </main>
     );
 }

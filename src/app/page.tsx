@@ -1,20 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import BookCard from "@/components/BookCard";
 import PaymentModal from "@/components/PaymentModal";
 import styles from "./page.module.css";
 import { motion } from "framer-motion";
-import { Library, MapPin, Users, BookOpen } from "lucide-react";
-import { BOOKS } from "@/lib/data";
-
-const FEATURED_BOOKS = BOOKS.slice(0, 4);
+import { Library, MapPin, Users, BookOpen, Loader2 } from "lucide-react";
 
 export default function Home() {
+  const [featuredBooks, setFeaturedBooks] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchFeaturedBooks = async () => {
+      try {
+        const response = await fetch('/api/books');
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setFeaturedBooks(data.slice(0, 4));
+        }
+      } catch (error) {
+        console.error("Failed to fetch featured books:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedBooks();
+  }, []);
 
   const handleBuy = (book: any) => {
     setSelectedBook(book);
@@ -31,8 +48,6 @@ export default function Home() {
         onClose={() => setIsPaymentOpen(false)}
         item={selectedBook}
       />
-
-      {/* ... rest of the content ... */}
 
       {/* Narrative Intro */}
       <section className={styles.introSection}>
@@ -76,22 +91,36 @@ export default function Home() {
         <div className={styles.container}>
           <div className={styles.headerRow}>
             <h2 className={styles.sectionTitle}>Discover Your Next Story</h2>
-            <button className={styles.textLink}>View All Books &rarr;</button>
+            <a href="/books" className={styles.textLink}>View All Books &rarr;</a>
           </div>
 
           <div className={styles.bookGrid}>
-            {FEATURED_BOOKS.map((book: any, i: number) => (
-              <motion.div
-                key={book.id || i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <BookCard {...book} onAction={() => handleBuy(book)} />
-              </motion.div>
-            ))}
-
+            {loading ? (
+              <div className={styles.loadingFull}>
+                <Loader2 className={styles.spinner} />
+                <p>Curating your library...</p>
+              </div>
+            ) : featuredBooks.length > 0 ? (
+              featuredBooks.map((book: any, i: number) => (
+                <motion.div
+                  key={book._id || i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <BookCard 
+                    {...book} 
+                    id={book._id || book.id} 
+                    onAction={() => handleBuy(book)} 
+                  />
+                </motion.div>
+              ))
+            ) : (
+              <div className={styles.emptyFeatured}>
+                <p>No featured books available at the moment.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -157,7 +186,7 @@ export default function Home() {
               </div>
               <div className={styles.linkGroup}>
                 <h4>About</h4>
-                <a href="#">Our Story</a>
+                <a href="/how-it-works">How it Works</a>
                 <a href="#">Mission</a>
                 <a href="#">Contact</a>
               </div>
@@ -174,4 +203,5 @@ export default function Home() {
     </main>
   );
 }
+
 

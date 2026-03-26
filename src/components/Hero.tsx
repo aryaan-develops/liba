@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import styles from "./Hero.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
     return (
@@ -27,8 +28,12 @@ export default function Hero() {
                     </p>
 
                     <div className={styles.ctaGroup}>
-                        <button className={styles.primaryBtn}>Explore Catalog</button>
-                        <button className={styles.secondaryBtn}>How it Works</button>
+                        <Link href="/books">
+                            <button className={styles.primaryBtn}>Explore Catalog</button>
+                        </Link>
+                        <Link href="/how-it-works">
+                            <button className={styles.secondaryBtn}>How it Works</button>
+                        </Link>
                     </div>
                 </motion.div>
             </div>

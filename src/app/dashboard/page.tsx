@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import styles from "./page.module.css";
-import { Book, Heart, Clock, Settings, Bell } from "lucide-react";
+import { Book, Heart, Clock, Settings, Bell, Plus } from "lucide-react";
+import AddBookModal from "@/components/AddBookModal";
 
 export default function DashboardPage() {
     const { user, logout } = useAuth();
@@ -16,8 +17,20 @@ export default function DashboardPage() {
         setMounted(true);
         if (!user) {
             router.push("/login");
+            return;
+        }
+
+        // Redirect to role-specific dashboard if not a standard user
+        if (user.role === 'librarian') {
+            router.push("/dashboard/librarian");
+        } else if (user.role === 'seller') {
+            router.push("/dashboard/seller");
+        } else if (user.role === 'admin') {
+            router.push("/dashboard/admin");
         }
     }, [user, router]);
+
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     if (!mounted || !user) return null;
 
@@ -32,7 +45,7 @@ export default function DashboardPage() {
                     <div className={styles.profile}>
                         <div className={styles.avatar}>{initials}</div>
                         <h3>{user.name}</h3>
-                        <p>{user.role.charAt(0).toUpperCase() + user.role.slice(1)} • Level 4</p>
+                        <p>{user.role.charAt(0).toUpperCase() + user.role.slice(1)} • {user.role === 'librarian' ? 'Master Librarian' : 'Reader'} • Level 4</p>
                         <button onClick={logout} className={styles.logoutBtn}>Sign Out</button>
                     </div>
 
@@ -63,7 +76,6 @@ export default function DashboardPage() {
                             </div>
                         </div>
                     </header>
-                    {/* ... rest of content ... */}
 
 
                     <div className={styles.booksGrid}>
@@ -71,11 +83,17 @@ export default function DashboardPage() {
                             <div className={styles.emptyIcon}><Book size={48} /></div>
                             <h3>Your shelf is quiet...</h3>
                             <p>Start listing books to connect with your community libraries and neighbors.</p>
-                            <button className={styles.addBtn}>List a New Book</button>
+                            <button className={styles.addBtn} onClick={() => setIsAddModalOpen(true)}>List a New Book</button>
                         </div>
                     </div>
                 </section>
             </div>
+            
+            <AddBookModal 
+                isOpen={isAddModalOpen} 
+                onClose={() => setIsAddModalOpen(false)} 
+                onSuccess={() => alert('Book added successfully!')}
+            />
         </main>
     );
 }
