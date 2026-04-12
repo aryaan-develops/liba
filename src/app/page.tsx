@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import BookCard from "@/components/BookCard";
@@ -8,9 +9,10 @@ import PaymentModal from "@/components/PaymentModal";
 import styles from "./page.module.css";
 import { motion } from "framer-motion";
 import { Library, MapPin, Users, BookOpen, Loader2 } from "lucide-react";
+import { Book } from "@/lib/data";
 
 export default function Home() {
-  const [featuredBooks, setFeaturedBooks] = useState<any[]>([]);
+  const [featuredBooks, setFeaturedBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState<any>(null);
@@ -133,7 +135,7 @@ export default function Home() {
               <span className={styles.label}>Local Integration</span>
               <h2 className={styles.sectionTitle}>Support Your Local Library</h2>
               <p>
-                We've partnered with over 50 local libraries to bring their inventory online.
+                We&apos;ve partnered with over 50 local libraries to bring their inventory online.
                 Reserve books, renew loans, and discover library events directly through Liba.
               </p>
               <div className={styles.statRow}>
@@ -153,7 +155,14 @@ export default function Home() {
                 whileHover={{ scale: 1.02 }}
                 className={styles.imageCard}
               >
-                <img src="/images/library.png" alt="Library" />
+                <div style={{ position: 'relative', width: '100%', height: '300px' }}>
+                    <Image 
+                        src="/images/library.png" 
+                        alt="Library" 
+                        fill 
+                        style={{ objectFit: 'cover', borderRadius: 'var(--radius-md)' }}
+                    />
+                </div>
                 <div className={styles.floatingTag}>
                   <MapPin size={16} /> 2.4 miles away
                 </div>
@@ -203,5 +212,6 @@ export default function Home() {
     </main>
   );
 }
+
 
 

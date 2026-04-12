@@ -18,7 +18,7 @@ export default function OnlineReaderPage({ params }: { params: { bookId: string 
             title: "The Alchemist",
             author: "Paulo Coelho",
             content: [
-                "The boy's name was Santiago. He was a shepherd by trade.",
+                "The boy&apos;s name was Santiago. He was a shepherd by trade.",
                 "It was another day in his repetitive but fulfilling life under the Andalusian sun.",
                 "He had been following his sheep across these pastures for many seasons, but something was different today.",
                 "His dreams were becoming more vivid, and a recurring image of a treasure in the Egyptian pyramids began to haunt him.",
@@ -26,6 +26,7 @@ export default function OnlineReaderPage({ params }: { params: { bookId: string 
             ]
         });
     }, [params.bookId]);
+
 
     if (!book) return <div>Loading current saga...</div>;
 

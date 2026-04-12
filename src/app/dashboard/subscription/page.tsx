@@ -9,7 +9,8 @@ import PaymentModal from "@/components/PaymentModal";
 export default function SubscriptionPage() {
     const { user } = useAuth();
     const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-    const [selectedPlan, setSelectedPlan] = useState<{ title: string; price: string; author: string } | null>(null);
+    const [selectedPlan, setSelectedPlan] = useState<{ id: string; title: string; price: string; author: string } | null>(null);
+
 
     const plans = [
         {
@@ -42,10 +43,12 @@ export default function SubscriptionPage() {
     const handleSubscribe = (plan: any) => {
         if (plan.price === "$0") return;
         setSelectedPlan({
+            id: `SUB_${plan.name.replace(/\s+/g, '_').toUpperCase()}`,
             title: plan.name,
             price: plan.price.replace('$', ''),
             author: "Library Subscription"
         });
+
         setIsPaymentModalOpen(true);
     };
 

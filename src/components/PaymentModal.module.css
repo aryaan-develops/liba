@@ -186,10 +186,10 @@
     margin-bottom: 16px;
 }
 
-.success p {
-    opacity: 0.7;
-    margin-bottom: 40px;
-    line-height: 1.6;
+.nextSteps {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
 }
 
 .primaryAction {
@@ -202,5 +202,97 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin: 0 auto;
+    cursor: pointer;
 }
+
+.secondaryAction {
+    background: #fff;
+    color: var(--primary-oak);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 16px 32px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Receipt Overlay */
+.receiptOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    z-index: 100;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.receipt {
+    border: 2px dashed rgba(0,0,0,0.1);
+    padding: 30px;
+    border-radius: var(--radius-sm);
+    flex-grow: 1;
+}
+
+.receiptHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.receiptBody {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.receiptRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    margin: 10px 0;
+}
+
+.totalHighlight {
+    padding-top: 15px;
+    font-size: 1.2rem;
+    color: var(--accent-terracotta);
+}
+
+.receiptFooter {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.receiptFooter p {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    margin-bottom: 20px;
+}
+
+.closeReceipt, .printBtn {
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.closeReceipt {
+    background: none;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.printBtn {
+    background: var(--primary-oak);
+    color: #fff;
+    border: none;
+}

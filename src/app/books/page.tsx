@@ -35,9 +35,15 @@ export default function BooksPage() {
     }, []);
 
     const handleAction = (book: any) => {
-        setSelectedBook(book);
+        setSelectedBook({
+            id: book._id || book.id,
+            title: book.title,
+            price: book.price || '0',
+            author: book.author
+        });
         setIsPaymentOpen(true);
     };
+
 
     const filteredBooks = books.filter(book => {
         const matchesFilter = filter === 'all' || book.type === filter;

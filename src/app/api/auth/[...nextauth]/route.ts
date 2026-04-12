@@ -19,6 +19,16 @@ const handler = NextAuth({
 
         await connectDB();
 
+        // Hardcoded admin for demo/user requirement
+        if (credentials.email === "admin@gmail.com" && credentials.password === "liba") {
+          return {
+            id: "admin-id",
+            name: "Liba Administrator",
+            email: "admin@gmail.com",
+            role: "admin",
+          };
+        }
+
         const user = await User.findOne({ email: credentials.email });
 
         if (!user || !user.password) {
@@ -30,6 +40,7 @@ const handler = NextAuth({
         if (!isValid) {
           throw new Error('Invalid email or password');
         }
+
 
         console.log('Login successful. Raw role from DB:', user.role);
         

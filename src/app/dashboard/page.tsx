@@ -5,8 +5,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import styles from "./page.module.css";
-import { Book, Heart, Clock, Settings, Bell, Plus } from "lucide-react";
+import { Book, Heart, Clock, Settings, Plus, Zap } from "lucide-react";
+
 import AddBookModal from "@/components/AddBookModal";
+import TransactionHistory from "@/components/TransactionHistory";
+
 
 export default function DashboardPage() {
     const { user, logout } = useAuth();
@@ -51,9 +54,10 @@ export default function DashboardPage() {
 
                     <nav className={styles.nav}>
                         <a href="#" className={styles.active}><Book size={20} /> My Collection</a>
+                        <a href="/books"><Plus size={20} /> Explore Catalog</a>
+                        <a href="/dashboard/subscription"><Zap size={20} /> Liba Premium</a>
                         <a href="#"><Heart size={20} /> Wishlist</a>
                         <a href="#"><Clock size={20} /> Local Lends</a>
-                        <a href="#"><Bell size={20} /> Activity</a>
                         <a href="#"><Settings size={20} /> Account</a>
                     </nav>
                 </aside>
@@ -77,8 +81,28 @@ export default function DashboardPage() {
                         </div>
                     </header>
 
+                    {/* Subscription Promo */}
+                    {!(user as any)?.isSubscribed && (
+                        <div className={styles.subscriptionPromo}>
+                            <div className={styles.promoContent}>
+                                <h3>Unlock the Full Story</h3>
+                                <p>Get unlimited access to thousands of community titles with Liba Premium.</p>
+                            </div>
+                            <a href="/dashboard/subscription" className={styles.upgradeBtn}>Upgrade to Premium</a>
+                        </div>
+                    )}
+
+
+
+
+                    {/* Transaction History */}
+                    <div className={styles.sectionHeader}>
+                        <h2 className={styles.sectionTitleSmall}>Recent Transactions</h2>
+                    </div>
+                    <TransactionHistory />
 
                     <div className={styles.booksGrid}>
+
                         <div className={styles.emptyState}>
                             <div className={styles.emptyIcon}><Book size={48} /></div>
                             <h3>Your shelf is quiet...</h3>

@@ -7,7 +7,8 @@ import { Settings, Shield, UserCheck, AlertTriangle, Menu, Search, RefreshCw, Ba
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AdminDashboard() {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
+
     const [stats, setStats] = useState({ totalUsers: 3450, totalRevenue: 12540.20, activeSubs: 820, systemStatus: "Online" });
     const [activeTab, setActiveTab] = useState("overview");
 
@@ -22,8 +23,8 @@ export default function AdminDashboard() {
                     {[
                         { id: "overview", label: "Overview", icon: BarChart3 },
                         { id: "users", label: "User Management", icon: UserCheck },
-                        { id: "content", label: "Content Control", icon: Database },
-                        { id: "settings", label: "System Settings", icon: Settings },
+                        { id: "content", label: "Financial Check", icon: Database },
+                        { id: "settings", label: "Settings", icon: Settings },
                     ].map(item => (
                         <button 
                             key={item.id} 
@@ -34,7 +35,13 @@ export default function AdminDashboard() {
                             <span>{item.label}</span>
                         </button>
                     ))}
+                    <button onClick={() => logout()} className={styles.logoutBtn}>
+                        <RefreshCw size={20} style={{ transform: 'rotate(180deg)' }} />
+                        <span>Sign Out</span>
+                    </button>
                 </nav>
+
+
             </aside>
 
             <main className={styles.main}>
@@ -69,7 +76,11 @@ export default function AdminDashboard() {
 
                 <div className={styles.content}>
                     {activeTab === "overview" && (
-                        <section className={styles.adminSection}>
+                        <motion.section 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className={styles.adminSection}
+                        >
                             <div className={styles.sectionTitle}>
                                 <h2>Recent System Activity</h2>
                                 <button className={styles.viewAll}>View Logs</button>
@@ -79,6 +90,7 @@ export default function AdminDashboard() {
                                     { time: "2m ago", action: "User #450 upgraded to Premium", type: "success" },
                                     { time: "15m ago", action: "New Seller registered: Digital Books Inc.", type: "info" },
                                     { time: "1h ago", action: "Database maintenance completed", type: "warning" },
+                                    { time: "3h ago", action: "Bulk payment simulation processed", type: "success" },
                                 ].map((activity, i) => (
                                     <div key={i} className={styles.activityItem}>
                                         <span className={styles.time}>{activity.time}</span>
@@ -87,14 +99,76 @@ export default function AdminDashboard() {
                                     </div>
                                 ))}
                             </div>
-                        </section>
+                        </motion.section>
                     )}
-                    {activeTab !== "overview" && (
-                        <div className={styles.placeholder}>
-                            <h3>Section: {activeTab.toUpperCase()}</h3>
-                            <p>Loading administrative modules...</p>
-                        </div>
+
+                    {activeTab === "users" && (
+                        <motion.section 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className={styles.adminSection}
+                        >
+                            <div className={styles.sectionTitle}>
+                                <h2>User Moderation</h2>
+                                <div className={styles.searchBox}>
+                                    <Search size={16} />
+                                    <input type="text" placeholder="Search users..." />
+                                </div>
+                            </div>
+                            <table className={styles.adminTable}>
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Joined</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Aryaan Develops</td>
+                                        <td>Reader</td>
+                                        <td><span className={styles.statusActive}>Active</span></td>
+                                        <td>Apr 10, 2026</td>
+                                        <td><button className={styles.tableBtn}>Edit</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Library One</td>
+                                        <td>Librarian</td>
+                                        <td><span className={styles.statusActive}>Active</span></td>
+                                        <td>Mar 22, 2026</td>
+                                        <td><button className={styles.tableBtn}>Edit</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </motion.section>
                     )}
+
+                    {activeTab === "content" && (
+                        <motion.section 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className={styles.adminSection}
+                        >
+                            <div className={styles.sectionTitle}>
+                                <h2>Global Financial Oversight</h2>
+                            </div>
+                            <div className={styles.financialGrid}>
+                                <div className={styles.finCard}>
+                                    <span>Total Subscription Revenue</span>
+                                    <h3>$8,240.50</h3>
+                                    <div className={styles.miniChart} />
+                                </div>
+                                <div className={styles.finCard}>
+                                    <span>Total Commission (Tax)</span>
+                                    <h3>$1,120.00</h3>
+                                    <div className={styles.miniChart} />
+                                </div>
+                            </div>
+                        </motion.section>
+                    )}
+
                 </div>
             </main>
         </div>

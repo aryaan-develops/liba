@@ -1,10 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import styles from "./BookCard.module.css";
 import { ArrowRight, BookOpen, ShoppingBag } from "lucide-react";
 
 interface BookCardProps {
+    id: string;
     title: string;
     author: string;
     type: 'lend' | 'buy';
@@ -21,12 +23,19 @@ export default function BookCard({ title, author, type, image, price, onAction }
             onClick={onAction}
         >
             <div className={styles.imageWrapper}>
-                <img src={image} alt={title} className={styles.image} />
+                <Image 
+                    src={image} 
+                    alt={title} 
+                    width={400} 
+                    height={500} 
+                    className={styles.image} 
+                />
                 <div className={styles.badge}>
                     {type === 'lend' ? <BookOpen size={14} /> : <ShoppingBag size={14} />}
                     <span>{type === 'lend' ? 'For Lending' : 'For Sale'}</span>
                 </div>
             </div>
+
 
             <div className={styles.info}>
                 <span className={styles.author}>{author}</span>

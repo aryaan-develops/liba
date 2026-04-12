@@ -10,15 +10,19 @@ interface PaymentModalProps {
     isOpen: boolean;
     onClose: () => void;
     item: {
+        id: string;
         title: string;
         price: string;
         author: string;
     } | null;
 }
 
+
 export default function PaymentModal({ isOpen, onClose, item }: PaymentModalProps) {
     const { user } = useAuth();
     const [step, setStep] = useState<"form" | "processing" | "success">("form");
+    const [showReceipt, setShowReceipt] = useState(false);
+
 
     if (!item) return null;
 
@@ -31,9 +35,11 @@ export default function PaymentModal({ isOpen, onClose, item }: PaymentModalProp
                 : '/api/payment/purchase';
             
             const body = item.author === "Library Subscription"
-                ? { userId: user?.id, amount: item.price, planType: item.title.toLowerCase() }
-                : { userId: user?.id, bookId: 'MOCK_ID', sellerId: 'MOCK_SELLER', amount: item.price }; // In a real app, IDs would be passed in
+                ? { userId: (user as any)?.id, amount: item.price, planType: item.title.toLowerCase() }
+                : { userId: (user as any)?.id, bookId: item.id, sellerId: 'GLOBAL_LIB', amount: item.price }; 
 
+
+            /* 
             const res = await fetch(apiEndpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -46,6 +52,24 @@ export default function PaymentModal({ isOpen, onClose, item }: PaymentModalProp
                 alert("Payment processing failed. Please try again.");
                 setStep("form");
             }
+            */
+
+            // Dummy success simulation
+            setTimeout(() => {
+                // Save to local storage for dummy history
+                const history = JSON.parse(localStorage.getItem('liba_transactions') || '[]');
+                history.unshift({
+                    id: `TXN_${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
+                    item: item.title,
+                    amount: item.price,
+                    date: new Date().toLocaleDateString(),
+                    type: item.author === "Library Subscription" ? 'Subscription' : 'Purchase'
+                });
+                localStorage.setItem('liba_transactions', JSON.stringify(history));
+                
+                setStep("success");
+            }, 2500);
+
         } catch (err) {
             console.error("Payment error:", err);
             setStep("form");
@@ -84,8 +108,16 @@ export default function PaymentModal({ isOpen, onClose, item }: PaymentModalProp
                                             </div>
                                             <div className={styles.totalRow}>
                                                 <span>Total</span>
-                                                <strong>${(parseFloat(item.price.replace('$', '')) + 0.50).toFixed(2)}</strong>
+                                                <strong>
+                                                    ${(() => {
+                                                        const p = typeof item.price === 'string' 
+                                                            ? parseFloat(item.price.replace('$', '')) 
+                                                            : (typeof item.price === 'number' ? item.price : 0);
+                                                        return (p + 0.50).toFixed(2);
+                                                    })()}
+                                                </strong>
                                             </div>
+
                                         </>
                                     )}
                                     {item.price === 'Free to Borrow' && (
@@ -145,12 +177,66 @@ export default function PaymentModal({ isOpen, onClose, item }: PaymentModalProp
                                 <h2>Transaction Successful!</h2>
                                 <p>Your book is now part of your digital collection. A confirmation email has been sent.</p>
                                 <div className={styles.nextSteps}>
+                                    <button className={styles.secondaryAction} onClick={() => setShowReceipt(true)}>
+                                        View Receipt
+                                    </button>
                                     <button className={styles.primaryAction} onClick={onClose}>
                                         Go to My Library <ArrowRight size={18} />
                                     </button>
                                 </div>
                             </div>
                         )}
+
+                        {showReceipt && (
+                            <div className={styles.receiptOverlay}>
+                                <div className={styles.receipt}>
+                                    <div className={styles.receiptHeader}>
+                                        <h3 className={styles.brandName}>Liba</h3>
+                                        <span>Invoice #INV-{Math.floor(Math.random()*100000)}</span>
+                                    </div>
+                                    <div className={styles.receiptBody}>
+                                        <div className={styles.receiptRow}>
+                                            <span>Date:</span>
+                                            <span>{new Date().toLocaleDateString()}</span>
+                                        </div>
+                                        <div className={styles.receiptRow}>
+                                            <span>Item:</span>
+                                            <span>{item.title}</span>
+                                        </div>
+                                        <div className={styles.receiptRow}>
+                                            <span>Category:</span>
+                                            <span>{item.author === 'Library Subscription' ? 'Subscription' : 'Book Purchase'}</span>
+                                        </div>
+                                        <hr className={styles.divider} />
+                                        <div className={styles.receiptRow}>
+                                            <span>Price:</span>
+                                            <span>{item.price}</span>
+                                        </div>
+                                        <div className={styles.receiptRow}>
+                                            <span>Tax:</span>
+                                            <span>$0.50</span>
+                                        </div>
+                                        <div className={`${styles.receiptRow} ${styles.totalHighlight}`}>
+                                            <strong>Total Paid:</strong>
+                                            <strong>
+                                                ${(() => {
+                                                    const p = typeof item.price === 'string' 
+                                                        ? parseFloat(item.price.replace('$', '')) 
+                                                        : (typeof item.price === 'number' ? item.price : 0);
+                                                    return (p + 0.50).toFixed(2);
+                                                })()}
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div className={styles.receiptFooter}>
+                                        <p>Thank you for supporting community libraries.</p>
+                                        <button className={styles.closeReceipt} onClick={() => setShowReceipt(false)}>Close</button>
+                                        <button className={styles.printBtn} onClick={() => window.print()}>Print</button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
                     </motion.div>
                 </div>
             )}

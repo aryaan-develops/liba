@@ -1,4 +1,6 @@
+@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap');
+
 
 :root {
   /* Colors - The "Liba" Palette */
@@ -22,6 +24,17 @@
   --radius-lg: 32px;
   --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-slow: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme {
+  --color-parchment: var(--bg-parchment);
+  --color-ink: var(--text-ink);
+  --color-oak: var(--primary-oak);
+  --color-tan: var(--secondary-tan);
+  --color-terracotta: var(--accent-terracotta);
+  
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
 }
 
 * {
